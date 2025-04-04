@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuímicaWeb - Formación de Compuestos</title>
+    <style>
+        :root {
+            --color-primary: #1e88e5;
+            --color-secondary: #ff8f00;
+            --color-accent: #7cb342;
+            --color-dark: #263238;
+            --color-light: #eceff1;
+            --color-white: #ffffff;
+            --shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: var(--color-light);
+            color: var(--color-dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+        
+        nav {
+            background-color: var(--color-dark);
+            padding: 0.8rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li {
+            margin: 0 0.5rem;
+        }
+        
+        nav ul li a {
+            color: var(--color-white);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            color: var(--color-primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--color-primary), transparent);
+        }
+        
+        .intro-card {
+            background-color: var(--color-white);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .topic-card {
+            background-color: var(--color-white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .topic-card h3 {
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--color-light);
+        }
+        
+        .ejercicios {
+            background-color: var(--color-light);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+        
+        .ejercicio {
+            background-color: var(--color-white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .ejercicio h4 {
+            color: var(--color-secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            background-color: #1565c0;
+        }
+        
+        .tabla-periodica {
+            margin: 2rem 0;
+            border-collapse: collapse;
+        }
+        
+        .tabla-periodica th, .tabla-periodica td {
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            text-align: center;
+        }
+        
+        .tabla-periodica th {
+            background-color: var(--color-primary);
+            color: white;
+        }
+        
+        .tabla-periodica tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .ejemplo-ecuacion {
+            font-family: monospace;
+            background-color: #f5f5f5;
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            display: block;
+        }
+        
+        .formula {
+            font-weight: bold;
+            font-style: italic;
+            color: var(--color-primary);
+        }
+        
+        footer {
+            background-color: var(--color-dark);
+            color: var(--color-white);
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav ul li {
+                margin: 0.3rem 0;
+            }
+            
+            .topic-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .btn-reveal {
+            background-color: var(--color-secondary);
+        }
+        
+        .btn-reveal:hover {
+            background-color: #f57c00;
+        }
+
+        .molecule-img {
+            display: block;
+            margin: 1rem auto;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        blockquote {
+            margin: 1rem 0;
+            padding: 1rem;
+            border-left: 4px solid var(--color-accent);
+            background-color: #f9f9f9;
+        }
+        
+        .highlight {
+            background-color: #fff9c4;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>QuímicaWeb</h1>
+        <p>Aprendizaje interactivo de compuestos químicos</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#intro">Introducción</a></li>
+            <li><a href="#oxidos-basicos">Óxidos Básicos</a></li>
+            <li><a href="#anhidridos">Anhídridos</a></li>
+            <li><a href="#hidroxidos">Hidróxidos</a></li>
+            <li><a href="#acidos-oxacidos">Ácidos Oxácidos</a></li>
+            <li><a href="#ejercicios">Ejercicios</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <section id="intro">
+            <h2 class="section-title">Introducción a los Compuestos Inorgánicos</h2>
+            <div class="intro-card">
+                <p>Bienvenido a nuestro curso de química inorgánica. En esta sección, aprenderemos sobre la formación de los principales tipos de compuestos inorgánicos: <strong>óxidos básicos</strong>, <strong>anhídridos</strong> (óxidos ácidos), <strong>hidróxidos</strong> y <strong>ácidos oxácidos</strong>.</p>
+                <p>Estos compuestos son fundamentales en la química y se clasifican según su comportamiento químico y los elementos que los componen.</p>
+                
+                <blockquote>
+                    <p><strong>Recuerda:</strong> La química inorgánica se centra en el estudio de compuestos que generalmente no contienen enlaces carbono-hidrógeno, a diferencia de la química orgánica.</p>
+                </blockquote>
+            </div>
+            
+            <div class="intro-card">
+                <h3>Conceptos Básicos</h3>
+                <p>Antes de entrar en detalle, repasemos algunos conceptos básicos:</p>
+                
+                <ul>
+                    <li><strong>Valencia:</strong> Capacidad de un elemento para combinarse con otros.</li>
+                    <li><strong>Estado de oxidación:</strong> Carga aparente que tiene un átomo en un compuesto.</li>
+                    <li><strong>Nomenclatura química:</strong> Sistema de reglas para nombrar compuestos químicos.</li>
+                    <li><strong>Electronegatividad:</strong> Capacidad de un átomo para atraer electrones.</li>
+                </ul>
+                
+                <p>Los compuestos que estudiaremos siguen un patrón de formación que se conoce como <span class="highlight">función química</span>, que determina sus propiedades y comportamiento.</p>
+            </div>
+        </section>
+        
+        <div class="topic-grid">
+            <section id="oxidos-basicos" class="topic-card">
+                <h3>Óxidos Básicos</h3>
+                <p>Los <strong>óxidos básicos</strong> son compuestos binarios formados por un metal y oxígeno. También se conocen como <em>óxidos metálicos</em>.</p>
+                
+                <h4>Formación</h4>
+                <p>Se forman mediante la siguiente reacción:</p>
+                <code class="ejemplo-ecuacion">Metal + O₂ → Óxido básico</code>
+                
+                <p>La fórmula general es:</p>
+                <p class="formula">M₂O<sub>n</sub></p>
+                <p>Donde M es un metal y n depende del estado de oxidación del metal.</p>
+                
+                <h4>Ejemplos</h4>
+                <ul>
+                    <li>Na₂O (Óxido de sodio): 4Na + O₂ → 2Na₂O</li>
+                    <li>CaO (Óxido de calcio): 2Ca + O₂ → 2CaO</li>
+                    <li>Al₂O₃ (Óxido de aluminio): 4Al + 3O₂ → 2Al₂O₃</li>
+                </ul>
+                
+                <h4>Propiedades</h4>
+                <ul>
+                    <li>Reaccionan con agua para formar hidróxidos (bases)</li>
+                    <li>Reaccionan con ácidos para formar sales y agua</li>
+                    <li>Suelen ser sólidos con altos puntos de fusión</li>
+                </ul>
+            </section>
+            
+            <section id="anhidridos" class="topic-card">
+                <h3>Anhídridos (Óxidos Ácidos)</h3>
+                <p>Los <strong>anhídridos</strong> son compuestos binarios formados por un no metal y oxígeno. También se conocen como <em>óxidos ácidos</em> u <em>óxidos no metálicos</em>.</p>
+                
+                <h4>Formación</h4>
+                <p>Se forman mediante la siguiente reacción:</p>
+                <code class="ejemplo-ecuacion">No metal + O₂ → Anhídrido</code>
+                
+                <p>La fórmula general es:</p>
+                <p class="formula">X₂O<sub>n</sub></p>
+                <p>Donde X es un no metal y n depende del estado de oxidación del no metal.</p>
+                
+                <h4>Ejemplos</h4>
+                <ul>
+                    <li>CO₂ (Dióxido de carbono): C + O₂ → CO₂</li>
+                    <li>SO₃ (Trióxido de azufre): 2S + 3O₂ → 2SO₃</li>
+                    <li>P₂O₅ (Pentóxido de fósforo): 4P + 5O₂ → 2P₂O₅</li>
+                </ul>
+                
+                <h4>Propiedades</h4>
+                <ul>
+                    <li>Reaccionan con agua para formar ácidos oxácidos</li>
+                    <li>Reaccionan con bases para formar sales y agua</li>
+                    <li>Pueden ser sólidos, líquidos o gases a temperatura ambiente</li>
+                </ul>
+            </section>
+            
+            <section id="hidroxidos" class="topic-card">
+                <h3>Hidróxidos</h3>
+                <p>Los <strong>hidróxidos</strong> son compuestos ternarios formados por un metal, oxígeno e hidrógeno. También se conocen como <em>bases</em>.</p>
+                
+                <h4>Formación</h4>
+                <p>Se pueden formar de dos maneras principales:</p>
+                <code class="ejemplo-ecuacion">Metal + H₂O → Hidróxido + H₂</code>
+                <code class="ejemplo-ecuacion">Óxido básico + H₂O → Hidróxido</code>
+                
+                <p>La fórmula general es:</p>
+                <p class="formula">M(OH)<sub>n</sub></p>
+                <p>Donde M es un metal y n es la valencia del metal.</p>
+                
+                <h4>Ejemplos</h4>
+                <ul>
+                    <li>NaOH (Hidróxido de sodio): Na₂O + H₂O → 2NaOH</li>
+                    <li>Ca(OH)₂ (Hidróxido de calcio): CaO + H₂O → Ca(OH)₂</li>
+                    <li>Al(OH)₃ (Hidróxido de aluminio): Al₂O₃ + 3H₂O → 2Al(OH)₃</li>
+                </ul>
+                
+                <h4>Propiedades</h4>
+                <ul>
+                    <li>pH mayor que 7 (básicos)</li>
+                    <li>Algunos son solubles en agua (como NaOH y KOH)</li>
+                    <li>Reaccionan con ácidos para formar sales y agua</li>
+                    <li>Cambian el color de la fenolftaleína a rosa</li>
+                </ul>
+            </section>
+            
+            <section id="acidos-oxacidos" class="topic-card">
+                <h3>Ácidos Oxácidos</h3>
+                <p>Los <strong>ácidos oxácidos</strong> son compuestos ternarios formados por hidrógeno, un no metal y oxígeno.</p>
+                
+                <h4>Formación</h4>
+                <p>Se forman principalmente mediante la siguiente reacción:</p>
+                <code class="ejemplo-ecuacion">Anhídrido + H₂O → Ácido oxácido</code>
+                
+                <p>La fórmula general puede representarse como:</p>
+                <p class="formula">H<sub>a</sub>X<sub>b</sub>O<sub>c</sub></p>
+                <p>Donde X es un no metal, y a, b, c dependen del estado de oxidación del no metal.</p>
+                
+                <h4>Ejemplos</h4>
+                <ul>
+                    <li>H₂CO₃ (Ácido carbónico): CO₂ + H₂O → H₂CO₃</li>
+                    <li>H₂SO₄ (Ácido sulfúrico): SO₃ + H₂O → H₂SO₄</li>
+                    <li>HNO₃ (Ácido nítrico): N₂O₅ + H₂O → 2HNO₃</li>
+                </ul>
+                
+                <h4>Propiedades</h4>
+                <ul>
+                    <li>pH menor que 7 (ácidos)</li>
+                    <li>Suelen ser solubles en agua</li>
+                    <li>Reaccionan con bases para formar sales y agua</li>
+                    <li>Cambian el color del tornasol azul a rojo</li>
+                </ul>
+            </section>
+        </div>
+        
+        <section id="ejercicios" class="ejercicios">
+            <h2 class="section-title">Ejercicios de Práctica</h2>
+            
+            <div class="ejercicio">
+                <h4>Ejercicio 1: Óxidos Básicos</h4>
+                <p>Escribe las ecuaciones de formación de los siguientes óxidos básicos:</p>
+                <ol>
+                    <li>Óxido de hierro (III)</li>
+                    <li>Óxido de magnesio</li>
+                    <li>Óxido de zinc</li>
+                </ol>
+                <button class="btn btn-reveal" onclick="document.getElementById('respuesta1').classList.toggle('hidden')">Ver respuesta</button>
+                <div id="respuesta1" class="hidden">
+                    <h4>Respuesta:</h4>
+                    <ol>
+                        <li>4Fe + 3O₂ → 2Fe₂O₃ (Óxido de hierro III)</li>
+                        <li>2Mg + O₂ → 2MgO (Óxido de magnesio)</li>
+                        <li>2Zn + O₂ → 2ZnO (Óxido de zinc)</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="ejercicio">
+                <h4>Ejercicio 2: Anhídridos</h4>
+                <p>Completa las siguientes ecuaciones de formación de anhídridos:</p>
+                <ol>
+                    <li>S + O₂ → ?</li>
+                    <li>4P + ? → 2P₂O₅</li>
+                    <li>? + 2O₂ → 2N₂O₄</li>
+                </ol>
+                <button class="btn btn-reveal" onclick="document.getElementById('respuesta2').classList.toggle('hidden')">Ver respuesta</button>
+                <div id="respuesta2" class="hidden">
+                    <h4>Respuesta:</h4>
+                    <ol>
+                        <li>S + O₂ → SO₂ (Dióxido de azufre)</li>
+                        <li>4P + 5O₂ → 2P₂O₅ (Pentóxido de fósforo)</li>
+                        <li>2N₂ + 2O₂ → 2N₂O₄ (Tetróxido de dinitrógeno)</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="ejercicio">
+                <h4>Ejercicio 3: Hidróxidos</h4>
+                <p>Escribe las ecuaciones de formación de hidróxidos a partir de los siguientes óxidos básicos al reaccionar con agua:</p>
+                <ol>
+                    <li>Li₂O</li>
+                    <li>BaO</li>
+                    <li>Fe₂O₃</li>
+                </ol>
+                <button class="btn btn-reveal" onclick="document.getElementById('respuesta3').classList.toggle('hidden')">Ver respuesta</button>
+                <div id="respuesta3" class="hidden">
+                    <h4>Respuesta:</h4>
+                    <ol>
+                        <li>Li₂O + H₂O → 2LiOH (Hidróxido de litio)</li>
+                        <li>BaO + H₂O → Ba(OH)₂ (Hidróxido de bario)</li>
+                        <li>Fe₂O₃ + 3H₂O → 2Fe(OH)₃ (Hidróxido de hierro III)</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="ejercicio">
+                <h4>Ejercicio 4: Ácidos Oxácidos</h4>
+                <p>Escribe las ecuaciones de formación de ácidos oxácidos a partir de los siguientes anhídridos al reaccionar con agua:</p>
+                <ol>
+                    <li>SO₃</li>
+                    <li>N₂O₃</li>
+                    <li>Cl₂O₇</li>
+                </ol>
+                <button class="btn btn-reveal" onclick="document.getElementById('respuesta4').classList.toggle('hidden')">Ver respuesta</button>
+                <div id="respuesta4" class="hidden">
+                    <h4>Respuesta:</h4>
+                    <ol>
+                        <li>SO₃ + H₂O → H₂SO₄ (Ácido sulfúrico)</li>
+                        <li>N₂O₃ + H₂O → 2HNO₂ (Ácido nitroso)</li>
+                        <li>Cl₂O₇ + H₂O → 2HClO₄ (Ácido perclórico)</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div class="ejercicio">
+                <h4>Ejercicio 5: Relaciones entre compuestos</h4>
+                <p>Identifica el tipo de compuesto y completa la secuencia de formación:</p>
+                <ol>
+                    <li>Na → Na₂O → ?</li>
+                    <li>S → ? → H₂SO₄</li>
+                    <li>Ca → ? → Ca(OH)₂</li>
+                </ol>
+                <button class="btn btn-reveal" onclick="document.getElementById('respuesta5').classList.toggle('hidden')">Ver respuesta</button>
+                <div id="respuesta5" class="hidden">
+                    <h4>Respuesta:</h4>
+                    <ol>
+                        <li>Na → Na₂O (óxido básico) → 2NaOH (hidróxido)</li>
+                        <li>S → SO₃ (anhídrido) → H₂SO₄ (ácido oxácido)</li>
+                        <li>Ca → CaO (óxido básico) → Ca(OH)₂ (hidróxido)</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+        
+        <section id="resumen">
+            <h2 class="section-title">Resumen del Tema</h2>
+            <div class="intro-card">
+                <p>Para concluir, vamos a resumir los conceptos clave sobre la formación de compuestos:</p>
+                
+                <ul>
+                    <li><strong>Óxidos Básicos:</strong> Metal + O₂ → M₂O<sub>n</sub></li>
+                    <li><strong>Anhídridos:</strong> No metal + O₂ → X₂O<sub>n</sub></li>
+                    <li><strong>Hidróxidos:</strong> Óxido básico + H₂O → M(OH)<sub>n</sub></li>
+                    <li><strong>Ácidos Oxácidos:</strong> Anhídrido + H₂O → H<sub>a</sub>X<sub>b</sub>O<sub>c</sub></li>
+                </ul>
+                
+                <p>Es importante recordar que la formación de estos compuestos sigue patrones sistemáticos basados en la tabla periódica y los estados de oxidación de los elementos.</p>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="#" class="btn">Descargar PDF del tema</a>
+                    <a href="#ejercicios" class="btn" style="margin-left: 1rem;">Más ejercicios</a>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 QuímicaWeb - Recursos Educativos</p>
+        <p>Creado con fines educativos</p>
+    </footer>
+    
+    <script>
+        // Script para manejar el efecto de "ver respuesta"
+        document.addEventListener('DOMContentLoaded', function() {
+            // Este script ya está incluido en los botones onClick
+        });
+    </script>
+</body>
+</html>
